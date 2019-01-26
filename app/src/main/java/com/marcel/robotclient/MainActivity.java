@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Switch;
 
 public class MainActivity extends Activity {
@@ -20,6 +21,7 @@ public class MainActivity extends Activity {
     private EditText ipInput;
     private EditText portInput;
     private Switch[] switches;
+    private SeekBar servoSlider;
     private DatagramSocket socket;
 
     @Override
@@ -46,6 +48,24 @@ public class MainActivity extends Activity {
                 }
             });
         }
+
+        servoSlider = findViewById(R.id.servo);
+        servoSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                new SendPacketTask().execute(Pair.create(0xff, progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
     class SendPacketTask extends AsyncTask<Pair<Integer, Integer>, Void, Void> {
         protected Void doInBackground(Pair<Integer, Integer>... requests) {
