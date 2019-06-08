@@ -6,38 +6,6 @@
     android:orientation="vertical"
     android:padding="20dip">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Server:" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dip" >
-
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="8"
-            android:inputType="number|text"
-            android:hint="IP Address" >
-            <requestFocus />
-        </EditText>
-
-        <EditText
-            android:id="@+id/port"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="5"
-            android:inputType="number"
-            android:hint="Port" >
-        </EditText>
-
-    </LinearLayout>
-
     <Switch
         android:id="@+id/switch1"
         android:layout_width="match_parent"
@@ -69,5 +37,16 @@
         android:layout_height="wrap_content"
         android:max="255"
         android:progress="127" />
+
+    <TextView
+        android:id="@+id/log_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log:" />
+
+    <TextView
+        android:id="@+id/log"
+        android:layout_width="match_parent"
+        android:layout_height="478dp" />
 
 </LinearLayout>
