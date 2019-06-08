@@ -26,15 +26,64 @@
         android:text="PIN 3" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/servosLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Servo" />
+        android:text="Servos:" />
 
     <SeekBar
-        android:id="@+id/servo"
+        android:id="@+id/servo0"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo1"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo2"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo3"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo4"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo5"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo6"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:max="255"
+        android:progress="127" />
+
+    <SeekBar
+        android:id="@+id/servo7"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
         android:max="255"
         android:progress="127" />
 

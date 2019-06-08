@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
     private String host;
     private int port;
     private Switch[] switches;
-    private SeekBar servoSlider;
+    private SeekBar[] servoSliders;
     private DatagramSocket socket;
     private TextView logArea;
 
@@ -40,8 +40,9 @@ public class MainActivity extends Activity {
         WifiInfo info = wifiManager.getConnectionInfo();
         String ssid = info.getSSID();
         String desiredSsid = getString(R.string.ssid);
+        Log.i(TAG, desiredSsid);
 
-        if(ssid != desiredSsid) {
+        if(!ssid.equals(desiredSsid) && !desiredSsid.equals("*")) {
             exitDialog("Wrong SSID", "The SSID of the WIFI network is wrong. Desired SSID: " + desiredSsid);
         }
 
@@ -68,23 +69,35 @@ public class MainActivity extends Activity {
             });
         }
 
-        servoSlider = findViewById(R.id.servo);
-        servoSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                new SendPacketTask().execute(Pair.create(0xff, progress));
-            }
+        servoSliders = new SeekBar[] {
+                findViewById(R.id.servo0),
+                findViewById(R.id.servo1),
+                findViewById(R.id.servo2),
+                findViewById(R.id.servo3),
+                findViewById(R.id.servo4),
+                findViewById(R.id.servo5),
+                findViewById(R.id.servo6),
+                findViewById(R.id.servo7)
+        };
+        for(int i = 0; i < 8; i++) {
+            final int it = i;
+            servoSliders[i].setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    new SendPacketTask().execute(Pair.create(0xff - it, progress));
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
 
-            }
+                }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void log(String text) {
