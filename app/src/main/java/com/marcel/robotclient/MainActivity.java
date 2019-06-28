@@ -9,12 +9,14 @@ import java.net.UnknownHostException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.VideoView;
 
 import com.jmedeisis.bugstick.Joystick;
 import com.jmedeisis.bugstick.JoystickListener;
@@ -24,6 +26,7 @@ public class MainActivity extends Activity {
     private String host;
     private int port;
     private DatagramSocket socket;
+    private VideoView videoView;
 
     private static final String TAG = "MainActivity";
 
@@ -45,7 +48,12 @@ public class MainActivity extends Activity {
         host = getString(R.string.host);
         port = Integer.parseInt(getString(R.string.port));
 
-        new CheckConnectivity().execute();
+        //new CheckConnectivity().execute();
+
+        videoView = findViewById(R.id.videoView);
+        Uri videoUri = Uri.parse(getString(R.string.video_uri));
+        videoView.setVideoURI(videoUri);
+        videoView.start();
 
         Joystick left = findViewById(R.id.joystick_left);
         Joystick right = findViewById(R.id.joystick_right);
