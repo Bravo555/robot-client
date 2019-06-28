@@ -9,25 +9,24 @@ import java.net.UnknownHostException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
-import android.widget.CompoundButton;
-import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.VideoView;
+
+import com.jmedeisis.bugstick.Joystick;
+import com.jmedeisis.bugstick.JoystickListener;
 
 public class MainActivity extends Activity {
 
     private String host;
     private int port;
-    private Switch[] switches;
-    private SeekBar[] servoSliders;
     private DatagramSocket socket;
-    private TextView logArea;
+    private VideoView videoView;
 
     private static final String TAG = "MainActivity";
 
@@ -48,60 +47,71 @@ public class MainActivity extends Activity {
 
         host = getString(R.string.host);
         port = Integer.parseInt(getString(R.string.port));
-        logArea = findViewById(R.id.log);
 
-        new CheckConnectivity().execute();
+        //new CheckConnectivity().execute();
 
-        switches = new Switch[] {
-                findViewById(R.id.switch1),
-                findViewById(R.id.switch2),
-                findViewById(R.id.switch3)
-        };
+        videoView = findViewById(R.id.videoView);
+        Uri videoUri = Uri.parse(getString(R.string.video_uri));
+        videoView.setVideoURI(videoUri);
+        videoView.start();
 
-        for(int i = 0; i < 3; i++) {
-            final int it = i;
-            switches[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    final Pair<Integer, Integer> params = Pair.create(it, isChecked ? 1 : 0);
-                    new SendPacketTask().execute(params);
-                }
-            });
+        Joystick left = findViewById(R.id.joystick_left);
+        Joystick right = findViewById(R.id.joystick_right);
+
+        left.setJoystickListener(new JoystickListener() {
+            @Override
+            public void onDown() {
+                log("down");
+            }
+
+            @Override
+            public void onDrag(float degrees, float offset) {
+                log("deg: " + degrees + ", off: " + offset);
+                float upValue = (float) Math.sin(Math.toRadians(degrees)) * offset;
+                log("" + upValue);
+
+                int intValue = normalisedFloatToByte(upValue);
+                new UpdateServo().execute(Pair.create(0xff, intValue));
+            }
+
+            @Override
+            public void onUp() {
+                log("up");
+            }
+        });
+
+        right.setJoystickListener(new JoystickListener() {
+            @Override
+            public void onDown() {
+                log("down");
+            }
+
+            @Override
+            public void onDrag(float degrees, float offset) {
+                log("deg: " + degrees + ", off: " + offset);
+                float upValue = (float) Math.sin(Math.toRadians(degrees)) * offset;
+                log("" + upValue);
+
+                int intValue = normalisedFloatToByte(upValue);
+                new UpdateServo().execute(Pair.create(0xfe, intValue));
+            }
+
+            @Override
+            public void onUp() {
+                log("up");
+            }
+        });
+    }
+
+    private int normalisedFloatToByte(float value) {
+        if(value < -1.0 || value > 1.0) {
+            return 0;
         }
-
-        servoSliders = new SeekBar[] {
-                findViewById(R.id.servo0),
-                findViewById(R.id.servo1),
-                findViewById(R.id.servo2),
-                findViewById(R.id.servo3),
-                findViewById(R.id.servo4),
-                findViewById(R.id.servo5),
-                findViewById(R.id.servo6),
-                findViewById(R.id.servo7)
-        };
-        for(int i = 0; i < 8; i++) {
-            final int it = i;
-            servoSliders[i].setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    new SendPacketTask().execute(Pair.create(0xff - it, progress));
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
-        }
+        return 127 + Math.round(value * 127);
     }
 
     private void log(String text) {
-        logArea.append(text + '\n');
+        Log.d(TAG, text);
     }
 
     private void exitDialog(String title, String text) {
@@ -138,7 +148,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    class SendPacketTask extends AsyncTask<Pair<Integer, Integer>, Void, Void> {
+    class UpdateServo extends AsyncTask<Pair<Integer, Integer>, Void, Void> {
         protected Void doInBackground(Pair<Integer, Integer>... requests) {
             byte[] payload = {
                     requests[0].first.byteValue(),
@@ -147,12 +157,6 @@ public class MainActivity extends Activity {
 
             try {
                 InetAddress addr = InetAddress.getByName(host);
-
-                if(!addr.isReachable(2000)) {
-                    log("Host " + host + " unreachable!");
-                } else {
-                    log("connected!");
-                }
 
                 DatagramPacket sendPacket = new DatagramPacket(payload, 0, payload.length, addr, port);
                 if (socket != null) {
@@ -173,7 +177,5 @@ public class MainActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        socket.disconnect();
-        socket.close();
     }
 }

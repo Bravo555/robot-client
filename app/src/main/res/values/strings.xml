@@ -3,4 +3,5 @@
     <string name="host" translatable="false">192.168.1.225</string>
     <string name="port" translatable="false">12345</string>
     <string name="ssid" translatable="false">*</string>
+    <string name="video_uri" translatable="false">rtsp://192.168.1.194/live</string>
 </resources>

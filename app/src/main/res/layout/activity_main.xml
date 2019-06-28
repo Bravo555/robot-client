@@ -1,101 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:padding="20dip">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PIN 1" />
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="PIN 2" />
+    <com.jmedeisis.bugstick.Joystick
+        android:id="@+id/joystick_left"
+        android:layout_width="@dimen/stick_base_size"
+        android:layout_height="@dimen/stick_base_size"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bg_base">
+        <Button
+            android:layout_width="@dimen/stick_head_size"
+            android:layout_height="@dimen/stick_head_size"
+            android:background="@drawable/bg_stick"/>
+    </com.jmedeisis.bugstick.Joystick>
 
-    <Switch
-        android:id="@+id/switch3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PIN 3" />
+    <com.jmedeisis.bugstick.Joystick
+        android:id="@+id/joystick_right"
+        android:layout_width="@dimen/stick_base_size"
+        android:layout_height="@dimen/stick_base_size"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bg_base">
 
-    <TextView
-        android:id="@+id/servosLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Servos:" />
+        <Button
+            android:layout_width="@dimen/stick_head_size"
+            android:layout_height="@dimen/stick_head_size"
+            android:background="@drawable/bg_stick" />
 
-    <SeekBar
-        android:id="@+id/servo0"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
+    </com.jmedeisis.bugstick.Joystick>
 
-    <SeekBar
-        android:id="@+id/servo1"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo2"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo3"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo4"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo5"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo6"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <SeekBar
-        android:id="@+id/servo7"
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:max="255"
-        android:progress="127" />
-
-    <TextView
-        android:id="@+id/log_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Log:" />
-
-    <TextView
-        android:id="@+id/log"
-        android:layout_width="match_parent"
-        android:layout_height="478dp" />
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="stick_base_size">128dp</dimen>
+    <dimen name="stick_head_size">80dp</dimen>
+</resources>
